@@ -111,7 +111,7 @@ const Calendar = () => {
             initialView="dayGridMonth"
             editable={true}
             selectable={true}
-            seelctMirror={true}
+            selectMirror={true}
             dayMaxEvents={true}
             select={handleDateClick}
             eventClick={handleEventClick}
