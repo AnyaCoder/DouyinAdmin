@@ -10,45 +10,54 @@ const Contacts = () => {
   const colors = tokens(theme.palette.mode);
 
   const columns = [
-    { field: 'id', headerName: '视频ID', flex: 0.5 },
-    { field: 'registrarId', headerName: '用户ID' },
     {
-      field: 'name',
+      field: 'id',
+      headerName: '视频ID',
+      flex: 0.5,
+    },
+    {
+      field: 'userId',
+      headerName: '用户ID',
+      editable: true,
+    },
+    {
+      field: 'title',
       headerName: '标题',
       flex: 1, // 随着名字增长
       cellClassName: 'name-column--cell',
+      editable: true,
     },
     {
-      field: 'age',
+      field: 'description',
       headerName: '描述',
       type: 'number',
       headerAlign: 'left',
       align: 'left',
+      editable: true,
     },
     {
-      field: 'phone',
+      field: 'uploadTime',
       headerName: '上传时间',
       flex: 1,
+      editable: true,
     },
     {
-      field: 'email',
+      field: 'videoPath',
       headerName: '视频路径',
       flex: 1,
+      editable: true,
     },
     {
-      field: 'address',
+      field: 'likes',
       headerName: '点赞数',
       flex: 1,
+      editable: true,
     },
     {
-      field: 'city',
+      field: 'views',
       headerName: '观看数',
       flex: 1,
-    },
-    {
-      field: 'zipCode',
-      headerName: 'ZipCode',
-      flex: 1,
+      editable: true,
     },
   ];
 
