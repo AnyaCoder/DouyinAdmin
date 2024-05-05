@@ -1,16 +1,7 @@
 import { useState } from 'react';
-import {
-  ProSidebar,
-  Menu,
-  MenuItem,
-} from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import './styles.css';
-import {
-  Box,
-  IconButton,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { tokens } from '../../theme';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -25,13 +16,7 @@ import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 
-const Item = ({
-  title,
-  to,
-  icon,
-  selected,
-  setSelected,
-}) => {
+const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -77,9 +62,7 @@ const Sidebar = () => {
           {/* 标志 */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={
-              isCollapsed ? <MenuOutlinedIcon /> : undefined
-            }
+            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: '10px 0 20px 0',
               color: colors.grey[100],
@@ -92,16 +75,11 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px" // marginLeft
               >
-                <Typography
-                  variant="h3"
-                  color={colors.grey[100]}
-                >
-                  ADMINIS
+                <Typography variant="h3" color={colors.grey[100]}>
+                  短视频后台管理
                 </Typography>
                 <IconButton
-                  onClick={() =>
-                    setIsCollapsed(!isCollapsed)
-                  }
+                  onClick={() => setIsCollapsed(!isCollapsed)}
                 >
                   <MenuOutlinedIcon />
                 </IconButton>
@@ -131,29 +109,27 @@ const Sidebar = () => {
 
               <Box textAlign="center">
                 <Typography
-                  variant="h2"
+                  variant="h3"
                   color={colors.grey[100]}
                   fontWeight="bold"
                   sx={{ m: '10px 0 0 0' }}
                 >
-                  Ed Roh
+                  笑笑
                 </Typography>
                 <Typography
                   variant="h5"
                   color={colors.greenAccent[500]}
                 >
-                  VP Fancy Admin
+                  管理员
                 </Typography>
               </Box>
             </Box>
           )}
 
           {/* 目录项 */}
-          <Box
-            paddingLeft={isCollapsed ? undefined : '10%'}
-          >
+          <Box paddingLeft={isCollapsed ? undefined : '10%'}>
             <Item
-              title="Dashboard"
+              title="仪表盘"
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -165,25 +141,25 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: '15px 0 5px 20px' }}
             >
-              Data
+              数据管理
             </Typography>
 
             <Item
-              title="Manage Team"
+              title="用户管理"
               to="/team"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Contacts Infomation"
+              title="内容管理"
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Invoices Balances"
+              title="收益情况"
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -195,24 +171,24 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: '15px 0 5px 20px' }}
             >
-              Pages
+              页面
             </Typography>
             <Item
-              title="Profile Form"
+              title="提交表单"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Calendar"
+              title="日历"
               to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="FAQ Page"
+              title="疑问解答"
               to="/faq"
               icon={<HelpOutlinedIcon />}
               selected={selected}
@@ -224,25 +200,25 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: '15px 0 5px 20px' }}
             >
-              Charts
+              图表
             </Typography>
 
             <Item
-              title="Bar Chart"
+              title="柱状图"
               to="/bar"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Pie Chart"
+              title="饼状图"
               to="/pie"
               icon={<PieChartOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Line Chart"
+              title="折线图"
               to="/line"
               icon={<TimelineOutlinedIcon />}
               selected={selected}

@@ -23,7 +23,7 @@ const Copyright = props => {
     >
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Toktik App
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -61,8 +61,8 @@ const SignInSide = () => {
           backgroundRepeat: 'no-repeat',
           backgroundColor: t =>
             t.palette.mode === 'light'
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
+              ? t.palette.grey[100]
+              : t.palette.grey[500],
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -89,7 +89,7 @@ const SignInSide = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            欢迎来到Toktik后台管理系统
           </Typography>
           <Box
             component="form"
@@ -102,7 +102,7 @@ const SignInSide = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="邮箱地址/账户名/手机号"
               name="email"
               autoComplete="email"
               autoFocus
@@ -112,14 +112,14 @@ const SignInSide = () => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="密码"
               type="password"
               id="password"
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="记住我的账号"
             />
             <Button
               type="submit"
@@ -127,17 +127,17 @@ const SignInSide = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              登录
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  忘记密码？
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {'还没有账号？在此注册'}
                 </Link>
               </Grid>
             </Grid>
