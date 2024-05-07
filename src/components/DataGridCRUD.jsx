@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -14,23 +14,22 @@ import {
   GridRowEditStopReasons,
   GridToolbarExport,
 } from '@mui/x-data-grid';
+import { fetchData } from '../network/utils';
 
 const EditToolbar = React.memo(({ setRows, setRowModesModel }) => {
-  const handleClick = React.useCallback(() => {
+  const handleInsertClick = React.useCallback(() => {
     let newId = 0;
     setRows(oldRows => {
-      const maxId = oldRows.length
-        ? Math.max(...oldRows.map(row => Number(row.id)))
-        : 0;
+      const maxId = oldRows.length;
       newId = maxId + 1;
-      return [
-        ...oldRows,
-        { id: newId, name: '', age: '', isNew: true },
-      ];
+      return [...oldRows, { id: newId, userID: newId, isNew: true }];
     });
     setRowModesModel(oldModel => ({
       ...oldModel,
-      [newId]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+      [newId]: {
+        mode: GridRowModes.Edit,
+        fieldToFocus: 'username',
+      },
     }));
   }, [setRows, setRowModesModel]);
 
@@ -39,10 +38,19 @@ const EditToolbar = React.memo(({ setRows, setRowModesModel }) => {
       <Button
         color="primary"
         startIcon={<AddIcon />}
-        onClick={handleClick}
+        onClick={handleInsertClick}
       >
         增加一条记录
       </Button>
+
+      <Button
+        color="primary"
+        startIcon={<CloudUploadIcon />}
+        onClick={handleInsertClick}
+      >
+        保存提交上传
+      </Button>
+      {/* 导出按钮 */}
       <GridToolbarExport />
     </GridToolbarContainer>
   );
@@ -51,9 +59,15 @@ const EditToolbar = React.memo(({ setRows, setRowModesModel }) => {
 export default function FullFeaturedCrudGrid({
   initialRows,
   initialColumns,
+  getRowId,
+  url,
 }) {
-  const [rows, setRows] = React.useState(initialRows);
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+
+  React.useEffect(() => {
+    setRows(initialRows);
+  }, [initialRows]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -67,6 +81,7 @@ export default function FullFeaturedCrudGrid({
         ...oldModel,
         [id]: { mode: GridRowModes.Edit },
       }));
+      console.log(1);
     },
     []
   );
@@ -77,18 +92,30 @@ export default function FullFeaturedCrudGrid({
         ...oldModel,
         [id]: { mode: GridRowModes.View },
       }));
+      console.log('handleSaveClick');
     },
     []
   );
 
   const handleDeleteClick = React.useCallback(
-    id => () => {
+    id => async () => {
       const confirmDelete = window.confirm('确定要删除这条记录吗？');
       if (confirmDelete) {
-        setRows(oldRows => oldRows.filter(row => row.id !== id));
+        const responseData = await fetchData(
+          `${url}/${id}`,
+          'DELETE',
+          null
+        );
+        if (responseData.status !== 500) {
+          setRows(oldRows => oldRows.filter(row => row.id !== id));
+          console.log('Delete: ', `${url}/${id}`);
+        } else {
+          console.log(`cannot delete ${url}/${id}`);
+          window.alert(`cannot delete ${url}/${id}`);
+        }
       }
     },
-    []
+    [url]
   );
 
   const handleCancelClick = React.useCallback(
@@ -106,13 +133,28 @@ export default function FullFeaturedCrudGrid({
     [rows]
   );
 
-  const processRowUpdate = React.useCallback(newRow => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(oldRows =>
-      oldRows.map(row => (row.id === newRow.id ? updatedRow : row))
-    );
-    return updatedRow;
-  }, []);
+  const processRowUpdate = React.useCallback(
+    async newRow => {
+      // 在 processRowUpdate 中判断当前行是新增还是已存在的
+      const isNew = newRow.isNew ?? false;
+      const updatedRow = { ...newRow, isNew: false };
+      setRows(oldRows =>
+        oldRows.map(row => (row.id === newRow.id ? updatedRow : row))
+      );
+      console.log('processRowUpdate');
+      // 打印新增的记录或者编辑并保存后的原有记录
+      console.log('Row saved:', updatedRow);
+      if (isNew) {
+        console.log('POST');
+        await fetchData(`${url}`, 'POST', updatedRow);
+      } else {
+        console.log(`PUT ${updatedRow.id}`);
+        await fetchData(`${url}/${updatedRow.id}`, 'PUT', updatedRow);
+      }
+      return updatedRow;
+    },
+    [url]
+  );
 
   const handleRowModesModelChange = newRowModesModel => {
     setRowModesModel(newRowModesModel);
@@ -178,27 +220,24 @@ export default function FullFeaturedCrudGrid({
   );
 
   return (
-    <Box
-      sx={{
-        '& .actions': {
-          color: 'text.secondary',
-        },
-        '& .textPrimary': {
-          color: 'text.primary',
+    <DataGrid
+      getRowId={getRowId}
+      rows={rows}
+      columns={columns}
+      editMode="row"
+      rowModesModel={rowModesModel}
+      onRowModesModelChange={handleRowModesModelChange}
+      onRowEditStop={handleRowEditStop}
+      processRowUpdate={processRowUpdate}
+      slots={{ toolbar: EditToolbar }}
+      slotProps={{
+        toolbar: {
+          setRows: setRows,
+          setRowModesModel: setRowModesModel,
+          rows: rows,
+          url: url,
         },
       }}
-    >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
-        processRowUpdate={processRowUpdate}
-        slots={{ toolbar: EditToolbar }}
-        slotProps={{ toolbar: { setRows, setRowModesModel } }}
-      />
-    </Box>
+    />
   );
 }

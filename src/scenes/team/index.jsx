@@ -1,41 +1,35 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
-import { mockDataTeam } from '../../data/mockData';
+
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import Header from '../../components/Header';
 import FullFeaturedCrudGrid from '../../components/DataGridCRUD';
+import { useEffect, useState } from 'react';
+import { fetchData } from '../../network/utils';
 
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const columns = [
     {
-      field: 'id',
+      field: 'userID',
       headerName: '编号',
       editable: true,
     },
     {
-      field: 'name',
+      field: 'username',
       headerName: '用户名',
       flex: 1, // 随着名字增长
       cellClassName: 'name-column--cell',
       editable: true,
     },
     {
-      field: 'age',
+      field: 'password',
       headerName: '密码',
-      type: 'number',
       headerAlign: 'left',
       align: 'left',
-      editable: true,
-    },
-    {
-      field: 'phone',
-      headerName: '手机号码',
-      flex: 1,
       editable: true,
     },
     {
@@ -45,7 +39,13 @@ const Team = () => {
       editable: true,
     },
     {
-      field: 'reg date',
+      field: 'phoneNumber',
+      headerName: '手机号码',
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: 'registrationDate',
       headerName: '注册时间',
       flex: 1,
       editable: true,
@@ -53,12 +53,6 @@ const Team = () => {
     {
       field: 'gender',
       headerName: '性别',
-      flex: 1,
-      editable: true,
-    },
-    {
-      field: 'email',
-      headerName: '电子邮件地址',
       flex: 1,
       editable: true,
     },
@@ -92,6 +86,25 @@ const Team = () => {
     },
   ];
 
+  // 初始化组件的状态，默认为空数组
+  const [data, setData] = useState([]);
+  const url = '/users';
+  // 使用 useEffect 在组件加载时获取数据
+  useEffect(() => {
+    const getData = async () => {
+      const jsonData = await fetchData(url, 'GET', null);
+      const mappedRows = jsonData.map((item, index) => ({
+        id: item.userID,
+        ...item,
+        access: 'user', // 新增 'access' 键并赋值
+      }));
+      setData(mappedRows); // 确保为数组类型
+    };
+
+    getData();
+  }, []);
+
+  console.log('data: ', data);
   return (
     <Box m="20px">
       <Header
@@ -133,8 +146,12 @@ const Team = () => {
         }}
       >
         <FullFeaturedCrudGrid
-          initialRows={mockDataTeam}
+          initialRows={data}
           initialColumns={columns}
+          getRowId={data => {
+            return data.userID;
+          }}
+          url={url}
         />
       </Box>
     </Box>

@@ -91,6 +91,9 @@ const Invoices = () => {
         <FullFeaturedCrudGrid
           initialRows={mockDataInvoices}
           initialColumns={columns}
+          getRowId={mockDataInvoices => {
+            return mockDataInvoices.id;
+          }}
         />
       </Box>
     </Box>

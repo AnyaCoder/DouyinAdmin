@@ -104,6 +104,9 @@ const Contacts = () => {
         <FullFeaturedCrudGrid
           initialRows={mockDataContacts}
           initialColumns={columns}
+          getRowId={mockDataContacts => {
+            return mockDataContacts.id;
+          }}
         />
       </Box>
     </Box>
