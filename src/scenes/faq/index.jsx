@@ -12,87 +12,59 @@ const FAQ = () => {
 
   return (
     <Box m="20px">
-      <Header
-        title="FAQ"
-        subtitle="Frequently Asked Questions Page"
-      />
+      <Header title="FAQ" subtitle="常见疑问与解答" />
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography
-            color={colors.greenAccent[500]}
-            variant="h5"
-          >
-            An Important question
+          <Typography color={colors.greenAccent[500]} variant="h5">
+            一个重要的问题
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            I'm the developer of fish audio;
-          </Typography>
+          <Typography>我是这个页面的开发者</Typography>
         </AccordionDetails>
       </Accordion>
 
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography
-            color={colors.greenAccent[500]}
-            variant="h5"
-          >
-            An Important question
+          <Typography color={colors.greenAccent[500]} variant="h5">
+            一个重要的问题
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            I'm the developer of fish audio;
-          </Typography>
+          <Typography>我是这个页面的开发者</Typography>
         </AccordionDetails>
       </Accordion>
 
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography
-            color={colors.greenAccent[500]}
-            variant="h5"
-          >
-            An Important question
+          <Typography color={colors.greenAccent[500]} variant="h5">
+            一个重要的问题
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            I'm the developer of fish audio;
-          </Typography>
+          <Typography>我是这个页面的开发者</Typography>
         </AccordionDetails>
       </Accordion>
 
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography
-            color={colors.greenAccent[500]}
-            variant="h5"
-          >
-            An Important question
+          <Typography color={colors.greenAccent[500]} variant="h5">
+            一个重要的问题
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            I'm the developer of fish audio;
-          </Typography>
+          <Typography>我是这个页面的开发者</Typography>
         </AccordionDetails>
       </Accordion>
 
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography
-            color={colors.greenAccent[500]}
-            variant="h5"
-          >
-            Another Important question
+          <Typography color={colors.greenAccent[500]} variant="h5">
+            另一个重要的问题
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            I'm the developer of fish audio;
-          </Typography>
+          <Typography>我是这个页面的开发者</Typography>
         </AccordionDetails>
       </Accordion>
     </Box>

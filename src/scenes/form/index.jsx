@@ -20,7 +20,10 @@ const userSchema = yup.object().shape({
   firstName: yup.string().required('required'),
   lastName: yup.string().required('required'),
   email: yup.string().email('invalid email').required('required'),
-  contact: yup.string().matches(phoneRegExp, 'Phone number is not valid').required('required'),
+  contact: yup
+    .string()
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .required('required'),
   address1: yup.string().required('required'),
   address2: yup.string().required('required'),
 });
@@ -34,27 +37,36 @@ const Form = () => {
 
   return (
     <Box m="20px">
-      <Header title="CREATE USER" subtitle="Create a New User Profile" />
+      <Header title="创建用户" subtitle="提交一个全新的资料" />
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
         validationSchema={userSchema}
       >
-        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+        {({
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
+                '& > div': {
+                  gridColumn: isNonMobile ? undefined : 'span 4',
+                },
               }}
             >
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="First Name"
+                label="姓氏"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstName}
@@ -67,7 +79,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Last Name"
+                label="名"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.lastName}
@@ -80,7 +92,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Email"
+                label="电子邮件"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.email}
@@ -93,7 +105,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Contact Number"
+                label="联系号码"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.contact}
@@ -107,7 +119,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Address 1"
+                label="联系地址1"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.address1}
@@ -120,7 +132,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Address 2"
+                label="联系地址2"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.address2}
@@ -131,8 +143,12 @@ const Form = () => {
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
-                Create New User
+              <Button
+                type="submit"
+                color="secondary"
+                variant="contained"
+              >
+                创建用户
               </Button>
             </Box>
           </form>

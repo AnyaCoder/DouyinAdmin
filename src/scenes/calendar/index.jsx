@@ -23,9 +23,7 @@ const Calendar = () => {
   const [currentEvents, setCurrentEvents] = useState([]);
 
   const handleDateClick = selected => {
-    const title = prompt(
-      'Please enter a new title for your event'
-    );
+    const title = prompt('Please enter a new title for your event');
     const calendarApi = selected.view.calendar;
     calendarApi.unselect();
     if (title) {
@@ -51,10 +49,7 @@ const Calendar = () => {
 
   return (
     <Box m="20px">
-      <Header
-        title="CALENDAR"
-        subtitle="Full Calendar Interactive Page"
-      />
+      <Header title="日历" subtitle="完全可交互日历页面" />
       <Box display="flex" justifyContent="space-between">
         {/* CALENDAR SIDEBAR */}
         <Box

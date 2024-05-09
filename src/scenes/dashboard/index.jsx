@@ -31,8 +31,8 @@ const Dashboard = () => {
         alignItems="center"
       >
         <Header
-          title="DASHBOARD"
-          subtitle="Welcome to your dashboard"
+          title="总体展示"
+          subtitle="展示用户、视频、收益情况"
         />
 
         <Box>
@@ -46,7 +46,7 @@ const Dashboard = () => {
             }}
           >
             <DownloadOutlinedIcon sx={{ mr: '10px' }} />
-            Download Reports
+            生成并下载报告
           </Button>
         </Box>
       </Box>
@@ -67,7 +67,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="12,361"
-            subtitle="Emails Sent"
+            subtitle="总评论数"
             progress="0.75"
             increase="+14%"
             icon={
@@ -91,7 +91,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="431,225"
-            subtitle="Sales Obtained"
+            subtitle="总商单数"
             progress="0.5"
             increase="+21%"
             icon={
@@ -115,7 +115,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="32,441"
-            subtitle="New Clients"
+            subtitle="总用户数"
             progress="0.30"
             increase="+14%"
             icon={
@@ -139,7 +139,7 @@ const Dashboard = () => {
         >
           <StatBox
             title="1,325,134"
-            subtitle="Traffic Inbound"
+            subtitle="总视频数"
             progress="0.80"
             increase="+43%"
             icon={
@@ -172,14 +172,14 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Revenue Generated
+                总利润数
               </Typography>
               <Typography
                 variant="h3"
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
               >
-                $56,213,231
+                ¥56,213,231
               </Typography>
             </Box>
 
@@ -218,7 +218,7 @@ const Dashboard = () => {
               variant="h5"
               fontWeight="600"
             >
-              Recent Transactions
+              最新商单
             </Typography>
           </Box>
           {mockTransactions.map((transaction, i) => (
@@ -242,9 +242,7 @@ const Dashboard = () => {
                   {transaction.user}
                 </Typography>
               </Box>
-              <Box color={colors.grey[100]}>
-                {transaction.date}
-              </Box>
+              <Box color={colors.grey[100]}>{transaction.date}</Box>
               <Box
                 backgroundColor={colors.greenAccent[500]}
                 p="5px 10px"
@@ -264,7 +262,7 @@ const Dashboard = () => {
           p="30px"
         >
           <Typography variant="h5" fontWeight="600">
-            Campaign
+            收支概况
           </Typography>
           <Box
             display="flex"
@@ -278,11 +276,9 @@ const Dashboard = () => {
               color={colors.greenAccent[500]}
               sx={{ mt: '15px' }}
             >
-              $48,352 Revenue Generated
+              ¥48,352 新利润
             </Typography>
-            <Typography>
-              Includes extra misc expenditures and costs
-            </Typography>
+            <Typography>包括额外的杂项开支和费用</Typography>
           </Box>
         </Box>
 
@@ -296,7 +292,7 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ p: '30px 30px 0 30px' }}
           >
-            Sales Quantity
+            销售统计
           </Typography>
           <Box height="250px" mt="-20px">
             <MyBarChart isDashboard={true} />
@@ -314,7 +310,7 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ mb: '15px' }}
           >
-            Geography Based Traffic
+            收支占比
           </Typography>
           <Box height="200px" mt="-20px">
             <MyPieChart isDashboard={true} />
