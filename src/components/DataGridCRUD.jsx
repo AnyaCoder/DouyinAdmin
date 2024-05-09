@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -16,54 +15,58 @@ import {
 } from '@mui/x-data-grid';
 import { fetchData } from '../network/utils';
 
-const EditToolbar = React.memo(({ setRows, setRowModesModel }) => {
-  const handleInsertClick = React.useCallback(() => {
-    let newId = 0;
-    setRows(oldRows => {
-      const maxId = oldRows.reduce(
-        (max, row) => (row.id > max ? row.id : max),
-        0
-      );
-      newId = maxId + 1;
-      return [...oldRows, { id: newId, userID: newId, isNew: true }];
-    });
-    setRowModesModel(oldModel => ({
-      ...oldModel,
-      [newId]: {
-        mode: GridRowModes.Edit,
-        fieldToFocus: 'username',
-      },
-    }));
-  }, [setRows, setRowModesModel]);
+const EditToolbar = React.memo(
+  ({
+    setRows,
+    setRowModesModel,
+    idField = 'userID',
+    focus = 'username',
+  }) => {
+    const handleInsertClick = React.useCallback(() => {
+      let newId = 0;
+      setRows(oldRows => {
+        const maxId = oldRows.reduce(
+          (max, row) => (row.id > max ? row.id : max),
+          0
+        );
+        newId = maxId + 1;
 
-  return (
-    <GridToolbarContainer>
-      <Button
-        color="primary"
-        startIcon={<AddIcon />}
-        onClick={handleInsertClick}
-      >
-        增加一条记录
-      </Button>
+        // 动态创建新行对象，设置指定的 id 字段
+        const newRow = { id: newId, isNew: true };
+        newRow[idField] = newId; // 动态设置 id 字段名称
 
-      <Button
-        color="primary"
-        startIcon={<CloudUploadIcon />}
-        onClick={handleInsertClick}
-      >
-        保存提交上传
-      </Button>
-      {/* 导出按钮 */}
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  );
-});
+        return [...oldRows, newRow];
+      });
+      setRowModesModel(oldModel => ({
+        ...oldModel,
+        [newId]: {
+          mode: GridRowModes.Edit,
+          fieldToFocus: focus,
+        },
+      }));
+    }, [setRows, setRowModesModel, idField, focus]);
 
+    return (
+      <GridToolbarContainer>
+        <Button
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={handleInsertClick}
+        >
+          增加一条记录
+        </Button>
+        {/* 导出按钮 */}
+        <GridToolbarExport />
+      </GridToolbarContainer>
+    );
+  }
+);
 export default function FullFeaturedCrudGrid({
   initialRows,
   initialColumns,
-  getRowId,
   url,
+  idField = 'userID',
+  focus = 'username',
 }) {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
@@ -224,7 +227,6 @@ export default function FullFeaturedCrudGrid({
 
   return (
     <DataGrid
-      getRowId={getRowId}
       rows={rows}
       columns={columns}
       editMode="row"
@@ -237,8 +239,8 @@ export default function FullFeaturedCrudGrid({
         toolbar: {
           setRows: setRows,
           setRowModesModel: setRowModesModel,
-          rows: rows,
-          url: url,
+          idField: idField,
+          focus: focus,
         },
       }}
     />

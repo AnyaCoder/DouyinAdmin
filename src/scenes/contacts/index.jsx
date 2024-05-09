@@ -4,6 +4,8 @@ import { mockDataContacts } from '../../data/mockData';
 import FullFeaturedCrudGrid from '../../components/DataGridCRUD';
 import Header from '../../components/Header';
 import { useTheme } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { fetchData } from '../../network/utils';
 
 const Contacts = () => {
   const theme = useTheme();
@@ -11,26 +13,24 @@ const Contacts = () => {
 
   const columns = [
     {
-      field: 'id',
+      field: 'videoID',
       headerName: '视频ID',
-      flex: 0.5,
     },
     {
-      field: 'userId',
+      field: 'userID',
       headerName: '用户ID',
       editable: true,
     },
     {
       field: 'title',
       headerName: '标题',
-      flex: 1, // 随着名字增长
+      flex: 1,
       cellClassName: 'name-column--cell',
       editable: true,
     },
     {
       field: 'description',
       headerName: '描述',
-      type: 'number',
       headerAlign: 'left',
       align: 'left',
       editable: true,
@@ -60,6 +60,25 @@ const Contacts = () => {
       editable: true,
     },
   ];
+
+  // 初始化组件的状态，默认为空数组
+  const [data, setData] = useState([]);
+  const url = '/videos';
+  // 使用 useEffect 在组件加载时获取数据
+  useEffect(() => {
+    const getData = async () => {
+      const jsonData = await fetchData(url, 'GET', null);
+      const mappedRows = jsonData.map((item, index) => ({
+        id: item.videoID,
+        ...item,
+      }));
+      setData(mappedRows); // 确保为数组类型
+    };
+
+    getData();
+  }, []);
+
+  console.log('videosData: ', data);
 
   return (
     <Box m="20px">
@@ -102,11 +121,11 @@ const Contacts = () => {
         }}
       >
         <FullFeaturedCrudGrid
-          initialRows={mockDataContacts}
+          initialRows={data}
           initialColumns={columns}
-          getRowId={mockDataContacts => {
-            return mockDataContacts.id;
-          }}
+          url={url}
+          idField="videoID"
+          focus="title"
         />
       </Box>
     </Box>

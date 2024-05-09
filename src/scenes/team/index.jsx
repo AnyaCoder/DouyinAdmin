@@ -103,7 +103,8 @@ const Team = () => {
     getData();
   }, []);
 
-  console.log('data: ', data);
+  console.log('usersData: ', data);
+
   return (
     <Box m="20px">
       <Header
@@ -147,10 +148,9 @@ const Team = () => {
         <FullFeaturedCrudGrid
           initialRows={data}
           initialColumns={columns}
-          getRowId={data => {
-            return data.userID;
-          }}
           url={url}
+          idField="userID"
+          focus="username"
         />
       </Box>
     </Box>
