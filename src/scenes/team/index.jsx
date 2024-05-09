@@ -16,7 +16,6 @@ const Team = () => {
     {
       field: 'userID',
       headerName: '编号',
-      editable: true,
     },
     {
       field: 'username',

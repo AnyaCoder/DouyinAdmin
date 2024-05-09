@@ -20,7 +20,10 @@ const EditToolbar = React.memo(({ setRows, setRowModesModel }) => {
   const handleInsertClick = React.useCallback(() => {
     let newId = 0;
     setRows(oldRows => {
-      const maxId = oldRows.length;
+      const maxId = oldRows.reduce(
+        (max, row) => (row.id > max ? row.id : max),
+        0
+      );
       newId = maxId + 1;
       return [...oldRows, { id: newId, userID: newId, isNew: true }];
     });
