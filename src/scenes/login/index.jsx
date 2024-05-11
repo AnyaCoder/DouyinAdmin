@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth';
+import { fetchData } from '../../network/utils';
 
 const Copyright = props => {
   return (
@@ -34,8 +35,42 @@ const Copyright = props => {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const SignInSide = () => {
+  // 初始化组件的状态，默认为空数组
+  const [data, setData] = React.useState([]);
+  const url = '/users';
+  // 使用 useEffect 在组件加载时获取数据
+  React.useEffect(() => {
+    const getData = async () => {
+      const jsonData = await fetchData(url, 'GET', null);
+      const mappedRows = jsonData.map((item, index) => ({
+        id: item.userID,
+        ...item,
+        access: 'user', // 新增 'access' 键并赋值
+      }));
+      setData(mappedRows); // 确保为数组类型
+    };
+
+    getData();
+  }, []);
+
+  console.log('usersData: ', data);
+
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogin = (email, password) => {
+    const user = data.find(
+      user => user.email === email && user.password === password
+    );
+    if (user) {
+      console.log('Login successful for:', user.username);
+      return true;
+    } else {
+      console.error('Login failed: Incorrect email or password');
+      return false;
+    }
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -44,8 +79,13 @@ const SignInSide = () => {
       password: data.get('password'),
     };
     console.log(userData);
-    login(userData);
-    navigate('/');
+    if (handleLogin(userData.email, userData.password)) {
+      login(userData);
+      navigate('/');
+      window.alert('成功登录!');
+    } else {
+      window.alert('用户名/邮箱或密码错误，请重试!');
+    }
   };
 
   return (
