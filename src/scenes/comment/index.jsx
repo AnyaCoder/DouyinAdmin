@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 // import { mockDataInvoices } from '../../data/mockData';
 import FullFeaturedCrudGrid from '../../components/DataGridCRUD';
