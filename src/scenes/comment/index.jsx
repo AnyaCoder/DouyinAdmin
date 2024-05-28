@@ -1,58 +1,78 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
-import { mockDataInvoices } from '../../data/mockData';
+// import { mockDataInvoices } from '../../data/mockData';
 import FullFeaturedCrudGrid from '../../components/DataGridCRUD';
 import Header from '../../components/Header';
+import { useEffect, useState } from 'react';
 
-const Invoices = () => {
+import {
+  getAllComments,
+  insertComment,
+  deleteComment,
+  updateComment,
+} from '../../api_usage';
+
+const Comment = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const columns = [
     { field: 'id', headerName: 'ID' },
     {
-      field: 'name',
-      headerName: 'Name',
-      flex: 1, // 随着名字增长
+      field: 'content',
+      headerName: '评论内容',
+      flex: 3, // 随着名字增长
       cellClassName: 'name-column--cell',
       editable: true,
     },
     {
-      field: 'phone',
-      headerName: 'Phone Number',
+      field: 'commentTime',
+      headerName: '评论时间',
       flex: 1,
-      editable: true,
     },
     {
-      field: 'email',
-      headerName: 'Email',
+      field: 'userID',
+      headerName: '用户ID',
       flex: 1,
-      editable: true,
     },
     {
-      field: 'cost',
-      headerName: 'Cost',
+      field: 'username',
+      headerName: '用户名称',
       flex: 1,
-      editable: true,
-      renderCell: params => (
-        <Typography color={colors.greenAccent[500]}>
-          ${params.row.cost}
-        </Typography>
-      ),
     },
     {
-      field: 'date',
-      headerName: 'Date',
+      field: 'videoID',
+      headerName: '视频ID',
       flex: 1,
-      editable: true,
+    },
+    {
+      field: 'title',
+      headerName: '视频标题',
+      flex: 1,
     },
   ];
+  // 初始化组件的状态，默认为空数组
+  const [data, setData] = useState([]);
+
+  // 使用 useEffect 在组件加载时获取数据
+  useEffect(() => {
+    const getData = async () => {
+      const jsonData = await getAllComments();
+      const mappedRows = jsonData.map((item, index) => ({
+        id: item.commentID,
+        ...item,
+      }));
+      setData(mappedRows); // 确保为数组类型
+    };
+
+    getData();
+  }, []);
 
   return (
     <Box m="20px">
       <Header
-        title="收益管理"
-        subtitle="可以财务报表进行增加、删除、修改、查询"
+        title="评论管理"
+        subtitle="可以对所有用户的评论进行增加、删除、修改、查询"
       />
       <Box
         m="40px 0 0 0" // 上、右、下、左 margin边界
@@ -89,15 +109,17 @@ const Invoices = () => {
         }}
       >
         <FullFeaturedCrudGrid
-          initialRows={mockDataInvoices}
+          initialRows={data}
           initialColumns={columns}
-          getRowId={mockDataInvoices => {
-            return mockDataInvoices.id;
-          }}
+          handleInsert={insertComment}
+          handleDelete={deleteComment}
+          handleUpdate={updateComment}
+          idField="commentID"
+          focus="content"
         />
       </Box>
     </Box>
   );
 };
 
-export default Invoices;
+export default Comment;

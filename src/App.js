@@ -5,7 +5,7 @@ import Topbar from './scenes/global/Topbar';
 import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard';
 import User from './scenes/user';
-import Invoices from './scenes/invoices';
+import Comment from './scenes/comment';
 import Video from './scenes/video';
 import Form from './scenes/form';
 import Bar from './scenes/bar';
@@ -39,7 +39,7 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/user" element={<User />} />
                 <Route path="/video" element={<Video />} />
-                <Route path="/invoices" element={<Invoices />} />
+                <Route path="/comment" element={<Comment />} />
                 <Route path="/form" element={<Form />} />
                 <Route path="/bar" element={<Bar />} />
                 <Route path="/pie" element={<Pie />} />

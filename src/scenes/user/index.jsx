@@ -109,8 +109,6 @@ const User = () => {
     getData();
   }, []);
 
-  console.log('usersData: ', data);
-
   return (
     <Box m="20px">
       <Header

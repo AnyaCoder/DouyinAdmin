@@ -159,8 +159,8 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="收益情况"
-              to="/invoices"
+              title="评论管理"
+              to="/comment"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

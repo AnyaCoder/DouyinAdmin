@@ -133,3 +133,56 @@ export const updateVideo = async (userId, userData) => {
     throw error;
   }
 };
+
+//*********************************************** */
+
+export const getAllComments = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/comments`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching video:', error);
+    throw error;
+  }
+};
+
+// 增加新用户
+export const insertComment = async commentData => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/comments`,
+      commentData
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching video:', error);
+    throw error;
+  }
+};
+
+// 删除用户
+export const deleteComment = async commentId => {
+  try {
+    const response = await axios.delete(
+      `${API_BASE_URL}/comments/${commentId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching video:', error);
+    throw error;
+  }
+};
+
+// 修改用户
+export const updateComment = async (commentId, commentData) => {
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/comments/${commentId}`,
+      commentData
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching video:', error);
+    throw error;
+  }
+};

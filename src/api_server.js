@@ -156,6 +156,71 @@ app.put('/api/videos/:videoId', async (req, res) => {
     res.status(500).send(error.toString());
   }
 });
+
+//************************* */
+// 获取所有评论
+app.get('/api/comments', async (req, res) => {
+  const apiUrl = `${backendUrl}/comments/async`;
+
+  try {
+    const commentData = await fetchData(apiUrl, 'GET', null);
+    res.json(commentData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 获取一个用户的一个视频的所有评论
+app.get('/api/comments/video/:videoId', async (req, res) => {
+  const videoId = req.params.videoId;
+  const apiUrl = `${backendUrl}/comments/async/video/${videoId}`;
+
+  try {
+    const commentData = await fetchData(apiUrl, 'GET', null);
+    res.json(commentData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 添加评论
+app.post('/api/comments', async (req, res) => {
+  const apiUrl = `${backendUrl}/comments/async`;
+
+  try {
+    const commentData = await fetchData(apiUrl, 'POST', req.body);
+    res.json(commentData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 删除用户的某个评论
+app.delete('/api/comments/:commentId', async (req, res) => {
+  const commentId = req.params.commentId;
+  const apiUrl = `${backendUrl}/comments/async/${commentId}`;
+
+  try {
+    const commentData = await fetchData(apiUrl, 'DELETE', null);
+    res.json(commentData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 修改用户的某个评论
+app.put('/api/comments/:commentId', async (req, res) => {
+  const commentId = req.params.commentId;
+  const apiUrl = `${backendUrl}/comments/async/${commentId}`;
+
+  try {
+    const commentData = await fetchData(apiUrl, 'PUT', req.body);
+    res.json(commentData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
 // ----------------------*****-----------------------
 // 监听端口，server启动
 app.listen(port, () => {
