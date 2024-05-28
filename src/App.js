@@ -4,9 +4,9 @@ import { Routes, Route } from 'react-router-dom';
 import Topbar from './scenes/global/Topbar';
 import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard';
-import Team from './scenes/team';
+import User from './scenes/user';
 import Invoices from './scenes/invoices';
-import Contacts from './scenes/contacts';
+import Video from './scenes/video';
 import Form from './scenes/form';
 import Bar from './scenes/bar';
 import Line from './scenes/line';
@@ -37,8 +37,8 @@ function App() {
                 element={user ? <Outlet /> : <Navigate to="/login" />}
               >
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/team" element={<Team />} />
-                <Route path="/contacts" element={<Contacts />} />
+                <Route path="/user" element={<User />} />
+                <Route path="/video" element={<Video />} />
                 <Route path="/invoices" element={<Invoices />} />
                 <Route path="/form" element={<Form />} />
                 <Route path="/bar" element={<Bar />} />

@@ -15,7 +15,7 @@ import {
   updateUser,
 } from '../../api_usage';
 
-const Team = () => {
+const User = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
@@ -165,4 +165,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default User;

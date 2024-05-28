@@ -146,14 +146,14 @@ const Sidebar = () => {
 
             <Item
               title="用户管理"
-              to="/team"
+              to="/user"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="内容管理"
-              to="/contacts"
+              to="/video"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

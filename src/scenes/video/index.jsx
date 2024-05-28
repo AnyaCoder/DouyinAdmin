@@ -12,7 +12,7 @@ import {
   updateVideo,
 } from '../../api_usage';
 
-const Contacts = () => {
+const Video = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -137,4 +137,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default Video;
