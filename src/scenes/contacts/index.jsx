@@ -1,11 +1,16 @@
 import { Box } from '@mui/material';
 import { tokens } from '../../theme';
-import { mockDataContacts } from '../../data/mockData';
 import FullFeaturedCrudGrid from '../../components/DataGridCRUD';
 import Header from '../../components/Header';
 import { useTheme } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { fetchData } from '../../network/utils';
+
+import {
+  getVideos,
+  insertVideo,
+  deleteVideo,
+  updateVideo,
+} from '../../api_usage';
 
 const Contacts = () => {
   const theme = useTheme();
@@ -63,11 +68,11 @@ const Contacts = () => {
 
   // 初始化组件的状态，默认为空数组
   const [data, setData] = useState([]);
-  const url = '/videos';
+
   // 使用 useEffect 在组件加载时获取数据
   useEffect(() => {
     const getData = async () => {
-      const jsonData = await fetchData(url, 'GET', null);
+      const jsonData = await getVideos();
       const mappedRows = jsonData.map((item, index) => ({
         id: item.videoID,
         ...item,
@@ -77,8 +82,6 @@ const Contacts = () => {
 
     getData();
   }, []);
-
-  console.log('videosData: ', data);
 
   return (
     <Box m="20px">
@@ -123,7 +126,9 @@ const Contacts = () => {
         <FullFeaturedCrudGrid
           initialRows={data}
           initialColumns={columns}
-          url={url}
+          handleInsert={insertVideo}
+          handleDelete={deleteVideo}
+          handleUpdate={updateVideo}
           idField="videoID"
           focus="title"
         />

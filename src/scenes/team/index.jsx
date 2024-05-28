@@ -7,7 +7,13 @@ import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import Header from '../../components/Header';
 import FullFeaturedCrudGrid from '../../components/DataGridCRUD';
 import { useEffect, useState } from 'react';
-import { fetchData } from '../../network/utils';
+
+import {
+  getUsers,
+  insertUser,
+  deleteUser,
+  updateUser,
+} from '../../api_usage';
 
 const Team = () => {
   const theme = useTheme();
@@ -87,11 +93,11 @@ const Team = () => {
 
   // 初始化组件的状态，默认为空数组
   const [data, setData] = useState([]);
-  const url = '/users';
+
   // 使用 useEffect 在组件加载时获取数据
   useEffect(() => {
     const getData = async () => {
-      const jsonData = await fetchData(url, 'GET', null);
+      const jsonData = await getUsers();
       const mappedRows = jsonData.map((item, index) => ({
         id: item.userID,
         ...item,
@@ -148,7 +154,9 @@ const Team = () => {
         <FullFeaturedCrudGrid
           initialRows={data}
           initialColumns={columns}
-          url={url}
+          handleInsert={insertUser}
+          handleUpdate={updateUser}
+          handleDelete={deleteUser}
           idField="userID"
           focus="username"
         />

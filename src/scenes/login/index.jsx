@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth';
-import { fetchData } from '../../network/utils';
+import { getUsers } from '../../api_usage';
 
 const Copyright = props => {
   return (
@@ -37,11 +37,11 @@ const Copyright = props => {
 const SignInSide = () => {
   // 初始化组件的状态，默认为空数组
   const [data, setData] = React.useState([]);
-  const url = '/users';
+
   // 使用 useEffect 在组件加载时获取数据
   React.useEffect(() => {
     const getData = async () => {
-      const jsonData = await fetchData(url, 'GET', null);
+      const jsonData = await getUsers();
       const mappedRows = jsonData.map((item, index) => ({
         id: item.userID,
         ...item,
@@ -52,8 +52,6 @@ const SignInSide = () => {
 
     getData();
   }, []);
-
-  console.log('usersData: ', data);
 
   const { login } = useAuth();
   const navigate = useNavigate();

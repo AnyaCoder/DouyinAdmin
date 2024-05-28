@@ -13,7 +13,6 @@ import {
   GridRowEditStopReasons,
   GridToolbarExport,
 } from '@mui/x-data-grid';
-import { fetchData } from '../network/utils';
 
 const EditToolbar = React.memo(
   ({
@@ -61,12 +60,15 @@ const EditToolbar = React.memo(
     );
   }
 );
+
 export default function FullFeaturedCrudGrid({
   initialRows,
   initialColumns,
-  url,
   idField = 'userID',
   focus = 'username',
+  handleInsert,
+  handleDelete,
+  handleUpdate,
 }) {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
@@ -107,21 +109,17 @@ export default function FullFeaturedCrudGrid({
     id => async () => {
       const confirmDelete = window.confirm('确定要删除这条记录吗？');
       if (confirmDelete) {
-        const responseData = await fetchData(
-          `${url}/${id}`,
-          'DELETE',
-          null
-        );
+        const responseData = await handleDelete(id);
         if (responseData.status !== 500) {
+          console.log('DELETE');
           setRows(oldRows => oldRows.filter(row => row.id !== id));
-          console.log('Delete: ', `${url}/${id}`);
         } else {
-          console.log(`cannot delete ${url}/${id}`);
-          window.alert(`cannot delete ${url}/${id}`);
+          console.log('DELETE failed');
+          window.alert(`cannot delete ${id}`);
         }
       }
     },
-    [url]
+    [handleDelete]
   );
 
   const handleCancelClick = React.useCallback(
@@ -152,14 +150,14 @@ export default function FullFeaturedCrudGrid({
       console.log('Row saved:', updatedRow);
       if (isNew) {
         console.log('POST');
-        await fetchData(`${url}`, 'POST', updatedRow);
+        await handleInsert(updatedRow);
       } else {
         console.log(`PUT ${updatedRow.id}`);
-        await fetchData(`${url}/${updatedRow.id}`, 'PUT', updatedRow);
+        await handleUpdate(updatedRow.id, updatedRow);
       }
       return updatedRow;
     },
-    [url]
+    [handleInsert, handleUpdate]
   );
 
   const handleRowModesModelChange = newRowModesModel => {
