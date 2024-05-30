@@ -1,11 +1,20 @@
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
+
 const app = express();
+const upload = multer({
+  limits: {
+    fieldSize: 50 * 1024 * 1024, // 50MB
+  },
+});
 const port = 3001;
 const backendUrl = `http://localhost:8080`;
 
 app.use(cors());
-app.use(express.json());
+// 配置内置的中间件以处理较大的请求体
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 const fetchData = async (url, method = 'GET', body = null) => {
   try {
@@ -56,7 +65,7 @@ app.get('/api/users', async (req, res) => {
 
 // 添加用户
 app.post('/api/users', async (req, res) => {
-  const apiUrl = `${backendUrl}/users`;
+  const apiUrl = `${backendUrl}/users/async`;
 
   try {
     const userData = await fetchData(apiUrl, 'POST', req.body);
@@ -120,14 +129,35 @@ app.get('/api/videos', async (req, res) => {
 });
 
 // 添加用户的视频
-app.post('/api/videos', async (req, res) => {
-  const apiUrl = `${backendUrl}/videos/async`;
+app.post('/api/upload', upload.none(), async (req, res) => {
+  const apiUrl = `${backendUrl}/videos/async/upload`;
 
   try {
-    const videoData = await fetchData(apiUrl, 'POST', req.body);
-    res.json(videoData);
+    const formData = new FormData();
+    formData.append('userID', req.body.userID);
+    formData.append('title', req.body.title);
+    formData.append('description', req.body.description);
+    formData.append('filename', req.body.filename);
+    formData.append('fileData', req.body.fileData);
+    // formData.append('fileData', '13233');
+    console.log('fileDatalen: ', req.body.fileData.length);
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      const videoData = await response.json();
+      res.json(videoData);
+    } else {
+      const errorData = await response.text();
+      res
+        .status(response.status)
+        .json({ status: response.status, msg: errorData });
+    }
   } catch (error) {
-    res.status(500).send(error.toString());
+    res.status(500).json({ status: 500, msg: error.toString() });
   }
 });
 

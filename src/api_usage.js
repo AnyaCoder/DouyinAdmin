@@ -11,7 +11,6 @@ export const getUserById = async userId => {
     return response.data;
   } catch (error) {
     console.error('Error fetching user:', error);
-    throw error;
   }
 };
 
@@ -19,10 +18,9 @@ export const getUserById = async userId => {
 export const getUsers = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/users`);
-    return response.data;
+    return response.data ? response.data : {};
   } catch (error) {
     console.error('Error fetching user:', error);
-    throw error;
   }
 };
 
@@ -36,7 +34,6 @@ export const insertUser = async userData => {
     return response.data;
   } catch (error) {
     console.error('Error fetching user:', error);
-    throw error;
   }
 };
 
@@ -49,7 +46,6 @@ export const deleteUser = async userId => {
     return response.data;
   } catch (error) {
     console.error('Error fetching user:', error);
-    throw error;
   }
 };
 
@@ -64,7 +60,6 @@ export const updateUser = async (userId, userData) => {
     return response.data;
   } catch (error) {
     console.error('Error fetching user:', error);
-    throw error;
   }
 };
 
@@ -78,7 +73,6 @@ export const getVideosByUserId = async userId => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };
 
@@ -89,7 +83,6 @@ export const getVideos = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };
 
@@ -103,7 +96,6 @@ export const insertVideo = async userData => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };
 
@@ -116,7 +108,6 @@ export const deleteVideo = async userId => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };
 
@@ -130,7 +121,6 @@ export const updateVideo = async (userId, userData) => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };
 
@@ -142,7 +132,6 @@ export const getAllComments = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };
 
@@ -156,7 +145,6 @@ export const insertComment = async commentData => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };
 
@@ -169,7 +157,6 @@ export const deleteComment = async commentId => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };
 
@@ -183,6 +170,5 @@ export const updateComment = async (commentId, commentData) => {
     return response.data;
   } catch (error) {
     console.error('Error fetching video:', error);
-    throw error;
   }
 };

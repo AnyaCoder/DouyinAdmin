@@ -72,17 +72,23 @@ const Video = () => {
   // 使用 useEffect 在组件加载时获取数据
   useEffect(() => {
     const getData = async () => {
-      const jsonData = await getVideos();
-      const mappedRows = jsonData.map((item, index) => ({
-        id: item.videoID,
-        ...item,
-      }));
-      setData(mappedRows); // 确保为数组类型
+      try {
+        const jsonData = await getVideos();
+        console.log(jsonData);
+        const dataArray = Array.isArray(jsonData) ? jsonData : [];
+        const mappedRows = dataArray.map((item, index) => ({
+          id: item.userID,
+          ...item,
+        }));
+        setData(mappedRows); // 确保为数组类型
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setData([]); // 在出错时设置一个空数组
+      }
     };
 
     getData();
   }, []);
-
   return (
     <Box m="20px">
       <Header
