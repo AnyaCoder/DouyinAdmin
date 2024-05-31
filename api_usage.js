@@ -18,7 +18,7 @@ export const getUserById = async userId => {
 export const getUsers = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/users`);
-    return response.data;
+    return response.data ? response.data : {};
   } catch (error) {
     console.error('Error fetching user:', error);
   }

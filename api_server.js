@@ -16,9 +16,19 @@ app.use(cors());
 // 配置内置的中间件以处理较大的请求体
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 app.use(
   '/Thumbnails',
-  express.static(path.join(__dirname, 'Thumbnails'))
+  express.static(
+    path.join(__dirname, '../JavaProject/mybatis/Thumbnails')
+  )
+);
+
+app.use(
+  '/UploadedVideos',
+  express.static(
+    path.join(__dirname, '../JavaProject/mybatis/UploadedVideos')
+  )
 );
 
 const fetchData = async (url, method = 'GET', body = null) => {
@@ -173,7 +183,14 @@ app.delete('/api/videos/:videoId', async (req, res) => {
   const apiUrl = `${backendUrl}/videos/async/${videoId}`;
 
   try {
-    const videoData = await fetchData(apiUrl, 'DELETE', null);
+    const formData = new FormData();
+    formData.append('videoPath', req.body?.videoPath);
+    formData.append('thumbnailPath', req.body?.thumbnailPath);
+
+    const videoData = await fetch(apiUrl, {
+      method: 'DELETE',
+      body: formData,
+    });
     res.json(videoData);
   } catch (error) {
     res.status(500).send(error.toString());
