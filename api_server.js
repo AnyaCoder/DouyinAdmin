@@ -301,6 +301,35 @@ app.delete('/api/videos/:videoId/like', async (req, res) => {
   }
 });
 
+//*************************** */
+
+// 关注
+app.post('/api/follows', async (req, res) => {
+  const apiUrl = `${backendUrl}/follows/async`;
+
+  try {
+    const followData = await fetchData(apiUrl, 'POST', req.body);
+    console.log(followData);
+    res.json(followData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 取关
+app.delete('/api/follows', async (req, res) => {
+  const apiUrl = `${backendUrl}/follows/async`;
+  try {
+    const followData = await fetchData(apiUrl, 'DELETE', req.body);
+    console.log(followData);
+    res.json(followData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+//***
+
 // ----------------------*****-----------------------
 // 监听端口，server启动
 app.listen(port, () => {
