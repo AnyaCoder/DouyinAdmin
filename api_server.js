@@ -274,6 +274,33 @@ app.put('/api/comments/:commentId', async (req, res) => {
   }
 });
 
+//*************************** */
+// 点赞
+app.post('/api/videos/:videoId/like', async (req, res) => {
+  const videoId = req.params.videoId;
+  const apiUrl = `${backendUrl}/videos/async/${videoId}/like`;
+
+  try {
+    const likeData = await fetchData(apiUrl, 'POST', null);
+    res.json(likeData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 取消点赞
+app.delete('/api/videos/:videoId/like', async (req, res) => {
+  const videoId = req.params.videoId;
+  const apiUrl = `${backendUrl}/videos/async/${videoId}/like`;
+
+  try {
+    const likeData = await fetchData(apiUrl, 'DELETE', null);
+    res.json(likeData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
 // ----------------------*****-----------------------
 // 监听端口，server启动
 app.listen(port, () => {

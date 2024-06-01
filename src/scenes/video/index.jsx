@@ -44,13 +44,11 @@ const Video = () => {
       field: 'uploadTime',
       headerName: '上传时间',
       flex: 1,
-      editable: true,
     },
     {
       field: 'videoPath',
       headerName: '视频路径',
       flex: 1,
-      editable: true,
     },
     {
       field: 'likes',
@@ -77,7 +75,7 @@ const Video = () => {
         console.log(jsonData);
         const dataArray = Array.isArray(jsonData) ? jsonData : [];
         const mappedRows = dataArray.map((item, index) => ({
-          id: item.userID,
+          id: item.videoID,
           ...item,
         }));
         setData(mappedRows); // 确保为数组类型
