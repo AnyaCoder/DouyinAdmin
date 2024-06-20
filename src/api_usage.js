@@ -2,6 +2,35 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3001/api';
 
+// 管理员用户登录
+export const loginAdmin = async adminData => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/admins/login`,
+      adminData
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching admin:', error);
+    throw error;
+  }
+};
+
+// 增加新管理员用户
+export const insertAdmin = async adminData => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/admins`,
+      adminData
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching admin:', error);
+  }
+};
+
+/************** */
+
 // 查询某用户
 export const getUserById = async userId => {
   try {
@@ -18,7 +47,7 @@ export const getUserById = async userId => {
 export const getUsers = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/users`);
-    return response.data;
+    return response.data ? response.data : {};
   } catch (error) {
     console.error('Error fetching user:', error);
   }

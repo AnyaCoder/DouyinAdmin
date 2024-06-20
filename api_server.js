@@ -53,6 +53,70 @@ const fetchData = async (url, method = 'GET', body = null) => {
   }
 };
 
+// 以某个管理员身份登录
+app.post('/api/admins/login', async (req, res) => {
+  const apiUrl = `${backendUrl}/admins/async/login`;
+
+  try {
+    const data = await fetchData(apiUrl, 'POST', req.body);
+    res.json(data);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 获取某个id的管理员
+app.get('/api/admins/:adminId', async (req, res) => {
+  const adminId = req.params.adminId;
+  const apiUrl = `${backendUrl}/admins/async/${adminId}`;
+  res.header('Access-Control-Allow-Origin', '*');
+  try {
+    const data = await fetchData(apiUrl, 'GET', null);
+    res.json(data);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 添加管理员
+app.post('/api/admins', async (req, res) => {
+  const apiUrl = `${backendUrl}/admins/async`;
+
+  try {
+    const data = await fetchData(apiUrl, 'POST', req.body);
+    res.json(data);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 删除管理员
+app.delete('/api/admins/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const apiUrl = `${backendUrl}/admins/async/${userId}`;
+
+  try {
+    const data = await fetchData(apiUrl, 'DELETE', null);
+    res.json(data);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 修改管理员
+app.put('/api/admins', async (req, res) => {
+  const apiUrl = `${backendUrl}/admins/async`;
+  console.log(req.body);
+  try {
+    const data = await fetchData(apiUrl, 'PUT', req.body);
+    res.json(data);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+//************************* */
+
 // 获取单个用户
 app.get('/api/users/:userId', async (req, res) => {
   const userId = req.params.userId;

@@ -15,24 +15,27 @@ import FAQ from './scenes/faq';
 import Calendar from './scenes/calendar';
 import { useAuth } from './auth';
 import SignInSide from './scenes/login';
+import SignUp from './scenes/signup';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 
 function App() {
   const [theme, colorMode] = useMode();
   const { user } = useAuth();
   const location = useLocation();
-  const isLoginPage = location.pathname === '/login';
+  const isLoginOrSignupPage =
+    location.pathname === '/login' || location.pathname === '/signup';
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          {!isLoginPage && user && <Sidebar />}
+          {!isLoginOrSignupPage && user && <Sidebar />}
           <main className="content">
-            {!isLoginPage && user && <Topbar />}
+            {!isLoginOrSignupPage && user && <Topbar />}
             <Routes>
               <Route path="/login" element={<SignInSide />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route
                 element={user ? <Outlet /> : <Navigate to="/login" />}
               >

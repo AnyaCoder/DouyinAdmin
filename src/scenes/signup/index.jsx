@@ -2,8 +2,6 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -12,8 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth';
-import { loginAdmin } from '../../api_usage';
-import { Link as RouterLink } from 'react-router-dom';
+import { insertAdmin } from '../../api_usage';
 
 const Copyright = props => {
   return (
@@ -33,39 +30,26 @@ const Copyright = props => {
   );
 };
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const SignInSide = () => {
+const SignUp = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const handleLogin = async data => {
-    try {
-      const resp = await loginAdmin(data);
-      let ok =
-        resp.status !== 500 && resp.adminName === data.adminName;
-      return ok;
-    } catch (error) {
-      console.error('Login failed:', error);
-      return false;
-    }
-  };
 
   const handleSubmit = async event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const adminData = {
-      adminName: data.get('email'),
+    const userData = {
+      adminName: data.get('username'),
+      email: data.get('email'),
       password: data.get('password'),
     };
-    const isLogin = await handleLogin(adminData);
-    console.log('isLogin: ', isLogin);
-    if (isLogin) {
-      login(adminData);
-      navigate('/');
-      window.alert('成功登录!');
-    } else {
-      window.alert('用户名/邮箱或密码错误，请重试!');
+    try {
+      await insertAdmin(userData);
+      login(userData);
+      navigate('/login');
+      window.alert('注册成功!可以登录了！');
+    } catch (error) {
+      console.error('Error registering user:', error);
+      window.alert('注册失败，请重试!');
     }
   };
 
@@ -110,7 +94,7 @@ const SignInSide = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            欢迎来到Toktik后台管理系统
+            注册Toktik后台管理系统
           </Typography>
           <Box
             component="form"
@@ -122,11 +106,20 @@ const SignInSide = () => {
               margin="normal"
               required
               fullWidth
+              id="username"
+              label="用户名"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="email"
-              label="邮箱地址/账户名/手机号"
+              label="邮箱地址"
               name="email"
               autoComplete="email"
-              autoFocus
             />
             <TextField
               margin="normal"
@@ -138,31 +131,18 @@ const SignInSide = () => {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="记住我的账号"
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              登录
+              注册
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  忘记密码？
-                </Link>
-              </Grid>
               <Grid item>
-                <Link
-                  component={RouterLink}
-                  to="/signup"
-                  variant="body2"
-                >
-                  {'还没有账号？在此注册'}
+                <Link href="/login" variant="body2">
+                  {'已有账号？在此登录'}
                 </Link>
               </Grid>
             </Grid>
@@ -174,4 +154,4 @@ const SignInSide = () => {
   );
 };
 
-export default SignInSide;
+export default SignUp;
