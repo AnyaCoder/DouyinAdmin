@@ -53,6 +53,20 @@ export const getUsers = async () => {
   }
 };
 
+// 普通短视频用户登录
+export const loginUser = async userData => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/users/login`,
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    throw error;
+  }
+};
+
 // 增加新用户
 export const insertUser = async userData => {
   try {

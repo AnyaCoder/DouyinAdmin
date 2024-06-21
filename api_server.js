@@ -130,6 +130,18 @@ app.get('/api/users/:userId', async (req, res) => {
   }
 });
 
+app.get('/api/users/stats/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const apiUrl = `${backendUrl}/users/async/stats/${userId}`;
+
+  try {
+    const userData = await fetchData(apiUrl, 'GET', null);
+    res.json(userData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
 // 获取所有用户
 app.get('/api/users', async (req, res) => {
   const apiUrl = `${backendUrl}/users`;
@@ -137,6 +149,18 @@ app.get('/api/users', async (req, res) => {
   try {
     const userData = await fetchData(apiUrl, 'GET', null);
     res.json(userData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 以某个管理员身份登录
+app.post('/api/users/login', async (req, res) => {
+  const apiUrl = `${backendUrl}/users/async/login`;
+
+  try {
+    const data = await fetchData(apiUrl, 'POST', req.body);
+    res.json(data);
   } catch (error) {
     res.status(500).send(error.toString());
   }
@@ -359,6 +383,19 @@ app.delete('/api/videos/:videoId/like', async (req, res) => {
 
   try {
     const likeData = await fetchData(apiUrl, 'DELETE', null);
+    res.json(likeData);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+});
+
+// 观看
+app.post('/api/videos/:videoId/view', async (req, res) => {
+  const videoId = req.params.videoId;
+  const apiUrl = `${backendUrl}/videos/async/${videoId}/view`;
+
+  try {
+    const likeData = await fetchData(apiUrl, 'POST', null);
     res.json(likeData);
   } catch (error) {
     res.status(500).send(error.toString());
